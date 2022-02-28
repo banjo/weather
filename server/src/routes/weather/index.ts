@@ -5,7 +5,7 @@ import { ServiceResult } from "../../types/types";
 const router = express.Router();
 
 router.get("/history", async (req, res) => {
-    const city = req.body.city ?? null;
+    const city = req.query.city?.toString() ?? null;
 
     if (!city) {
         return res.status(400).send({ status: "bad request" });
