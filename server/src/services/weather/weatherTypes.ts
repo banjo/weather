@@ -14,3 +14,8 @@ export interface IWeatherSummary {
     min: number;
     max: number;
 }
+
+export interface IFiveDaysSummaryResponse {
+    summaries: IWeatherSummary[];
+    city: string;
+}

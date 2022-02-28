@@ -10,13 +10,17 @@ import {
 } from "../../providers/openWeather";
 import { ICompleteWeatherData } from "../../providers/openWeather/openWeatherTypes";
 import { ServiceResult } from "../../types/types";
-import { IWeatherServiceResponse, IWeatherSummary } from "./weatherTypes";
+import {
+    IFiveDaysSummaryResponse,
+    IWeatherServiceResponse,
+    IWeatherSummary,
+} from "./weatherTypes";
 
 const AMOUNT_OF_DAYS = 5;
 
 export const getLastFiveDaysWeatherSummary = async (
     city: string
-): Promise<IWeatherServiceResponse<IWeatherSummary[]>> => {
+): Promise<IWeatherServiceResponse<IFiveDaysSummaryResponse>> => {
     const coordinates = await getCoordinatesForCity(city);
 
     if (!coordinates || coordinates.length === 0) {
@@ -27,7 +31,7 @@ export const getLastFiveDaysWeatherSummary = async (
         };
     }
 
-    const { lat, lon } = coordinates[0];
+    const { lat, lon, name } = coordinates[0];
     const lastDays = await getLastDays(AMOUNT_OF_DAYS, lat, lon);
 
     if (!lastDays) {
@@ -40,10 +44,18 @@ export const getLastFiveDaysWeatherSummary = async (
 
     const summaries = getSummariesForDays(lastDays);
 
+    if (summaries === null) {
+        return {
+            status: ServiceResult.ERROR,
+            errorMessage: "could not calculate weather data",
+            value: null,
+        };
+    }
+
     return {
         status: ServiceResult.SUCCESS,
         errorMessage: null,
-        value: summaries,
+        value: { summaries: summaries, city: name },
     };
 };
 
