@@ -1,3 +1,13 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    font-family: "Montserrat", "Open Sans";
+}
+
+.divider {
+    border-top: 2px solid rgba(255, 255, 255, 0.077);
+}

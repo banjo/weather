@@ -1,13 +1,13 @@
 export const average = (array: number[]) => {
-    return array.reduce((a, b) => a + b) / array.length;
+    return Number((array.reduce((a, b) => a + b) / array.length).toFixed(1));
 };
 
 export const max = (array: number[]) => {
-    return Math.max.apply(null, array);
+    return Number(Math.max.apply(null, array).toFixed(1));
 };
 
 export const min = (array: number[]) => {
-    return Math.min.apply(null, array);
+    return Number(Math.min.apply(null, array).toFixed(1));
 };
 
 export const median = (array: number[]) => {
@@ -15,5 +15,7 @@ export const median = (array: number[]) => {
         return a - b;
     });
     const mid = array.length / 2;
-    return mid % 1 ? array[mid - 0.5] : (array[mid - 1] + array[mid]) / 2;
+    return mid % 1
+        ? Number(array[mid - 0.5].toFixed(1))
+        : Number(((array[mid - 1] + array[mid]) / 2).toFixed(1));
 };

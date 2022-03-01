@@ -3,6 +3,7 @@ import {
     getDateFromUnix,
     getEarlierDate,
     getUnixTime,
+    isToday,
 } from "../../helpers/dateHelpers";
 import {
     getCoordinatesForCity,
@@ -75,13 +76,20 @@ const getSummariesForDays = (
 const getSummaryForDay = (day: ICompleteWeatherData): IWeatherSummary => {
     const hourlyTemperature = day.hourly.map((h) => h.temp);
 
+    const currentDay = getDateFromUnix(day.current.dt);
+    const correctSummary = isToday(currentDay) ? day.current : day.hourly[12];
+
+    const weather = correctSummary.weather[0];
+
     return {
         date: getDateFromUnix(day.current.dt).toDateString(),
-        current: day.current.temp,
+        current: Number(correctSummary.temp.toFixed(1)),
         mean: average(hourlyTemperature),
         median: median(hourlyTemperature),
         min: min(hourlyTemperature),
         max: max(hourlyTemperature),
+        description: weather?.description,
+        icon: weather.icon,
     };
 };
 

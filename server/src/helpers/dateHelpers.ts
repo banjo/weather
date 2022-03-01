@@ -13,3 +13,7 @@ export const getUnixTime = (date: Date): number => {
 export const getDateFromUnix = (unix: number): Date => {
     return dayjs.unix(unix).toDate();
 };
+
+export const isToday = (date: Date): boolean => {
+    return dayjs(date).isSame(new Date(), "day");
+};
