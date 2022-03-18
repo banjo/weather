@@ -3,17 +3,16 @@ import { useEffect, useState } from "react";
 import { IWeatherResponse } from "../types/types";
 
 const BASE_URL = import.meta.env.VITE_WEATHER_API_URL;
-const DEFAULT_CITY = "goteborg";
 
-export const useWeatherApi = () => {
+export const useWeatherApi = (city: string) => {
     const [data, setData] = useState<IWeatherResponse | null>(null);
-    const [city, setCity] = useState(DEFAULT_CITY);
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
 
     const getImageUrl = (icon: string) => {
         return `https://openweathermap.org/img/wn/${icon}@2x.png`;
-    };
+    }; 
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,7 +33,7 @@ export const useWeatherApi = () => {
         };
 
         fetchData();
-    }, []);
+    }, [city]);
 
     return { data, isLoading, isError, getImageUrl };
 };
